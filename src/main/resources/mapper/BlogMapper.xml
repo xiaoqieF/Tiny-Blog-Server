@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxd.tinyBlogServer.dao.BlogMapper">
+
+    <insert id="addBlog" useGeneratedKeys="true" keyProperty="id">
+        insert into t_blog (appreciation, comment_enable, content, create_time, description, first_picture, flag, published,
+                            recommend, share_statement, title, update_time, views, type_id, user_id)
+        values(#{appreciation}, #{commentEnable}, #{content}, #{createTime}, #{description}, #{firstPicture}, #{flag}, #{published},
+               #{recommend}, #{shareStatement}, #{title}, #{updateTime}, #{views}, #{type.id}, #{user.id})
+    </insert>
+
+
+</mapper>
