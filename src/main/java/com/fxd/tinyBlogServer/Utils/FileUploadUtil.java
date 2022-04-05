@@ -2,6 +2,8 @@ package com.fxd.tinyBlogServer.Utils;
 
 import com.fxd.tinyBlogServer.pojo.inter.MetaData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +16,22 @@ import java.util.UUID;
 @Slf4j
 public class FileUploadUtil {
 
+    static private final String winFileSavePath = "E:\\upload";
+
+    static private final String unixFileSavePath = "/tmp";
+
     // 接收上传文件并保存至path处
     public static Map<String, Object> saveTo(String path, MultipartFile uploadFile, HttpServletRequest req) throws IOException {
-        String realPath = req.getServletContext().getRealPath(path);
+        String os = System.getProperty("os.name");
+        String realPath;
+        // win系统
+        if (os.toLowerCase().startsWith("win")) {
+            realPath = winFileSavePath + path;
+        } else {
+            // unix系统
+            realPath = unixFileSavePath + path;
+        }
+        log.info(realPath);
         File saveDir = new File(realPath);
         if (!saveDir.isDirectory()) {
             saveDir.mkdirs();
@@ -30,7 +45,10 @@ public class FileUploadUtil {
 
         Map<String, Object> res = new HashMap<>();
         res.put("meta", new MetaData(200, "上传成功！"));
-        res.put("path", req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + path + "/" + newName);
+        res.put("path", req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/images" + path + "/" + newName);
+        log.info("access url:{}",
+                req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort()
+                + "/images" + path + "/" + newName );
         return res;
     }
 }

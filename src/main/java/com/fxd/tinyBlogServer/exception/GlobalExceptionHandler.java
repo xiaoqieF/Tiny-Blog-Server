@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> res = new HashMap<>();
         res.put("meta", new MetaData(DATA_ACCESS_EXCEPTION, "不允许操作该表项！"));
         res.put("detail", e.getMessage());
-        e.printStackTrace();
+        // e.printStackTrace();
         log.error("数据库操作异常：SQLIntegrityConstraintViolationException");
         return res;
     }
