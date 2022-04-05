@@ -23,6 +23,5 @@ public class User {
     private Date createTime;
     private Date updateTime;
 
-    private List<Blog> blogs = new ArrayList<>();
 
 }

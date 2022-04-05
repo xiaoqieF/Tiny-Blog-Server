@@ -10,3 +10,8 @@ mybatis:
   mapper-locations: classpath:/mapper/**
 server:
   port: 8082
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

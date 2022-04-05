@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fxd.tinyBlogServer.pojo.inter.MetaData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,11 @@ public class GlobalExceptionHandler {
      */
     private static final Integer TOKEN_EXPIRED_EXCEPTION = 506;
 
+    /**
+     * 数据库操作异常
+     */
+    private static final Integer DATA_ACCESS_EXCEPTION = 508;
+
 
     /**
      * 处理token异常
@@ -55,6 +61,21 @@ public class GlobalExceptionHandler {
         Map<String, Object> res = new HashMap<>();
         res.put("meta", new MetaData(TOKEN_EXPIRED_EXCEPTION, "token超时！"));
         log.error("token超时");
+        return res;
+    }
+
+    /**
+     * 处理数据库操作异常，数据库中外键对应表格的删除和修改会导致异常
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public Map<String, Object> sqlConstraintException(DataIntegrityViolationException e) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("meta", new MetaData(DATA_ACCESS_EXCEPTION, "不允许操作该表项！"));
+        res.put("detail", e.getMessage());
+        e.printStackTrace();
+        log.error("数据库操作异常：SQLIntegrityConstraintViolationException");
         return res;
     }
 

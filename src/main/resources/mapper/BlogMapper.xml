@@ -4,12 +4,180 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxd.tinyBlogServer.dao.BlogMapper">
 
+    <!-- 设置keyProperty属性使得插入之后给id属性赋值 -->
     <insert id="addBlog" useGeneratedKeys="true" keyProperty="id">
         insert into t_blog (appreciation, comment_enable, content, create_time, description, first_picture, flag, published,
                             recommend, share_statement, title, update_time, views, type_id, user_id)
         values(#{appreciation}, #{commentEnable}, #{content}, #{createTime}, #{description}, #{firstPicture}, #{flag}, #{published},
-               #{recommend}, #{shareStatement}, #{title}, #{updateTime}, #{views}, #{type.id}, #{user.id})
+               #{recommend}, #{shareStatement}, #{title}, #{updateTime}, #{views}, #{typeId}, #{userId});
     </insert>
 
+    <!-- 遍历标签列表中的所有id，进行中间表的插入 -->
+    <insert id="addBlogTag">
+        insert into t_blog_tag (blog_id, tag_id) values
+        <foreach collection="tagId" item="item" index="index" separator=",">
+            (#{id}, #{item})
+        </foreach>
+    </insert>
+
+    <resultMap id="blogResMap" type="com.fxd.tinyBlogServer.pojo.inter.BlogInfo">
+        <id property="id" column="blog_id"/>
+        <result property="appreciation" column="blog_appreciation"/>
+        <result property="commentEnable" column="blog_comment_enable"/>
+        <result property="createTime" column="blog_create_time"/>
+        <result property="description" column="blog_description"/>
+        <result property="firstPicture" column="blog_first_picture"/>
+        <result property="flag" column="blog_flag"/>
+        <result property="published" column="blog_published"/>
+        <result property="recommend" column="blog_recommend"/>
+        <result property="shareStatement" column="blog_share_statement"/>
+        <result property="title" column="blog_title"/>
+        <result property="updateTime" column="blog_update_time"/>
+        <result property="views" column="blog_views"/>
+        <association property="user" javaType="com.fxd.tinyBlogServer.pojo.User">
+            <id property="id" column="user_id"/>
+            <result property="avatar" column="user_avatar"/>
+            <result property="createTime" column="user_create_time"/>
+            <result property="username" column="user_username"/>
+            <result property="updateTime" column="user_update_time"/>
+            <result property="nickname" column="user_nickname"/>
+            <result property="type" column="user_type"/>
+            <result property="email" column="user_email"/>
+        </association>
+        <association property="type" javaType="com.fxd.tinyBlogServer.pojo.Type">
+            <id property="id" column="type_id"/>
+            <result property="name" column="type_name"/>
+        </association>
+        <collection property="tags" javaType="ArrayList" column="blog_id" ofType="com.fxd.tinyBlogServer.pojo.Tag" select="selectTagsForBlog"/>
+    </resultMap>
+
+    <!-- 查询出全部博客的简要信息(不包括博客内容，但包括作者信息，标签信息，分类信息) -->
+    <select id="getAllBlogs" resultMap="blogResMap">
+        select
+            B.id as blog_id,
+            B.appreciation as blog_appreciation,
+            B.comment_enable as blog_comment_enable,
+            B.create_time as blog_create_time,
+            B.description as blog_description,
+            B.first_picture as blog_first_picture,
+            B.flag as blog_flag,
+            B.published as blog_published,
+            B.recommend as blog_recommend,
+            B.share_statement as blog_share_statement,
+            B.title as blog_title,
+            B.update_time as blog_update_time,
+            B.views as blog_views,
+            U.id as user_id,
+            U.avatar as user_avatar,
+            U.create_time as user_create_time,
+            U.username as user_username,
+            U.update_time as user_update_time,
+            U.nickname as user_nickname,
+            U.type as user_type,
+            U.email as user_email,
+            T.id as type_id,
+            T.name as type_name
+        from t_blog B
+        left outer join t_user U on B.user_id = U.id
+        left outer join t_type T on B.type_id = T.id
+    </select>
+
+    <!-- 在tag表中，通过中间表找出博客id为#{blog_id}对应的标签 -->
+    <select id="selectTagsForBlog" resultType="com.fxd.tinyBlogServer.pojo.Tag">
+        select * from t_tag where id in (select tag_id from t_blog_tag where blog_id = #{blog_id})
+    </select>
+
+    <!-- 与上面resultMap唯一不同是添加了博客内容,填充了typeId和tagId字段（在服务层填充） -->
+    <resultMap id="blogResMap2" type="com.fxd.tinyBlogServer.pojo.Blog">
+        <id property="id" column="blog_id"/>
+        <result property="appreciation" column="blog_appreciation"/>
+        <result property="commentEnable" column="blog_comment_enable"/>
+        <result property="createTime" column="blog_create_time"/>
+        <result property="description" column="blog_description"/>
+        <result property="firstPicture" column="blog_first_picture"/>
+        <result property="flag" column="blog_flag"/>
+        <result property="published" column="blog_published"/>
+        <result property="recommend" column="blog_recommend"/>
+        <result property="shareStatement" column="blog_share_statement"/>
+        <result property="title" column="blog_title"/>
+        <result property="updateTime" column="blog_update_time"/>
+        <result property="views" column="blog_views"/>
+        <result property="content" column="blog_content"/>
+        <association property="user" javaType="com.fxd.tinyBlogServer.pojo.User">
+            <id property="id" column="user_id"/>
+            <result property="avatar" column="user_avatar"/>
+            <result property="createTime" column="user_create_time"/>
+            <result property="username" column="user_username"/>
+            <result property="updateTime" column="user_update_time"/>
+            <result property="nickname" column="user_nickname"/>
+            <result property="type" column="user_type"/>
+            <result property="email" column="user_email"/>
+        </association>
+        <association property="type" javaType="com.fxd.tinyBlogServer.pojo.Type">
+            <id property="id" column="type_id"/>
+            <result property="name" column="type_name"/>
+        </association>
+        <collection property="tags" javaType="ArrayList" column="blog_id" ofType="com.fxd.tinyBlogServer.pojo.Tag" select="selectTagsForBlog"/>
+    </resultMap>
+
+
+    <select id="getBlogById" resultMap="blogResMap2">
+        select
+            B.id as blog_id,
+            B.appreciation as blog_appreciation,
+            B.comment_enable as blog_comment_enable,
+            B.create_time as blog_create_time,
+            B.description as blog_description,
+            B.first_picture as blog_first_picture,
+            B.flag as blog_flag,
+            B.published as blog_published,
+            B.recommend as blog_recommend,
+            B.share_statement as blog_share_statement,
+            B.title as blog_title,
+            B.update_time as blog_update_time,
+            B.views as blog_views,
+            B.content as blog_content,
+            U.id as user_id,
+            U.avatar as user_avatar,
+            U.create_time as user_create_time,
+            U.username as user_username,
+            U.update_time as user_update_time,
+            U.nickname as user_nickname,
+            U.type as user_type,
+            U.email as user_email,
+            T.id as type_id,
+            T.name as type_name
+        from t_blog B
+            left outer join t_user U on B.user_id = U.id
+            left outer join t_type T on B.type_id = T.id
+        where B.id = #{id}
+    </select>
+
+    <delete id="deleteBlogById">
+        delete from t_blog where id = #{id};
+    </delete>
+    <delete id="deleteBlogTag">
+        delete from t_blog_tag where blog_id = #{blog_id};
+    </delete>
+
+    <update id="updateBlog">
+        update t_blog
+        set appreciation = #{appreciation},
+            comment_enable = #{commentEnable},
+            content = #{content},
+            create_time = #{createTime},
+            description = #{description},
+            first_picture = #{firstPicture},
+            flag = #{flag},
+            published = #{published},
+            recommend = #{recommend},
+            share_statement = #{shareStatement},
+            title = #{title},
+            update_time = #{updateTime},
+            views = #{views},
+            type_id = #{typeId},
+            user_id = #{userId}
+        where id = #{id};
+    </update>
 
 </mapper>

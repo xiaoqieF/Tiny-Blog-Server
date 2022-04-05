@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class ErrorController {
 
+    // 异常转发
     @RequestMapping("/error/throw")
     public void rethrow(HttpServletRequest request) throws Exception {
         // 将拦截器中的异常重新抛出，便于全局异常捕获处理

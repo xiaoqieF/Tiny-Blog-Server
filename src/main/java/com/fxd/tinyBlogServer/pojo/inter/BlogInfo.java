@@ -1,5 +1,8 @@
-package com.fxd.tinyBlogServer.pojo;
+package com.fxd.tinyBlogServer.pojo.inter;
 
+import com.fxd.tinyBlogServer.pojo.Tag;
+import com.fxd.tinyBlogServer.pojo.Type;
+import com.fxd.tinyBlogServer.pojo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +11,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// 简要博客信息类
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-// 全部博客信息
-public class Blog {
+@AllArgsConstructor
+public class BlogInfo {
     private Long id;
     private String title;
     private String description;
-    private String content;
     // 文首图片
     private String firstPicture;
     // 标记（转载，原创，翻译）
@@ -34,16 +36,8 @@ public class Blog {
     private Date createTime;
     private Date updateTime;
 
-    // 类型id，外键
-    private Long typeId;
-
     private Type type;
-    // 用户id，外键
-    private Long userId;
-
     private User user;
-    // 标签id列表
-    private List<Long> tagId;
     // 标签列表
     private List<Tag> tags = new ArrayList<>();
 }

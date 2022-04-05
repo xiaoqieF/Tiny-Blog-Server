@@ -41,6 +41,7 @@ public class TypeController {
         return res;
     }
 
+    // 删除分类
     @DeleteMapping("/private/categories/{cateId}")
     public Map<String, Object> removeCate(@PathVariable("cateId") long id) {
         log.info("[removeCate] pathVariable:{}", id);

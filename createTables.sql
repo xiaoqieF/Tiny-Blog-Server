@@ -97,4 +97,17 @@ CREATE TABLE `t_user`  (
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for t_blog_tag, 中间表用于维护多对多关系
+-- 注意其中使用了两个id的联合主键，保证了记录不重复
+-- ----------------------------
+DROP TABLE IF EXISTS `t_blog_tag`;
+CREATE TABLE `t_blog_tag`  (
+    `blog_id` bigint(20) NOT NULL,
+    `tag_id` bigint(20) NOT NULL,
+    PRIMARY KEY (`blog_id`, `tag_id`) USING BTREE,
+    FOREIGN KEY (`blog_id`) REFERENCES `t_blog` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (`tag_id`) REFERENCES `t_tag` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;
