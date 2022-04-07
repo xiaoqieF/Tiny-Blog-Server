@@ -25,9 +25,8 @@ public class BlogController {
     BlogService blogService;
 
     // 获取博客列表信息
-    @GetMapping("/private/blog")
-    public Map<String, Object> getAllBlogs(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
-        // List<BlogInfo> blogInfos = blogService.getAllBlogs();
+    @GetMapping("/public/blog")
+    public Map<String, Object> getAllBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize);
         List<BlogInfo> blogInfos = pageInfo.getList();
         log.info("get blogs：{}", blogInfos.size());
@@ -89,6 +88,7 @@ public class BlogController {
         return res;
     }
 
+    // 更新博客信息
     @PutMapping("/private/blog")
     public Map<String, Object> updateBlog(@RequestBody Blog blog) {
         int num = blogService.updateBlog(blog);

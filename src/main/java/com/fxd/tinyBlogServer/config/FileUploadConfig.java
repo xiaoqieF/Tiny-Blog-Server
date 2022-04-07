@@ -20,7 +20,6 @@ public class FileUploadConfig implements WebMvcConfigurer {
         String os = System.getProperty("os.name");
         // win系统
         if (os.toLowerCase().startsWith("win")) {
-            System.out.println("windows 系统");
             registry.addResourceHandler("/images/**")
                     .addResourceLocations("file:" + winFileSavePath);
         } else {

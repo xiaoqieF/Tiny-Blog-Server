@@ -39,7 +39,11 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public PageInfo<BlogInfo> findBlogsByPage(int page, int offset) {
+    public PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset) {
+        // 未传参时，将全部页面返回
+        if (page == null || offset == null) {
+            return new PageInfo<>(mapper.getAllBlogs());
+        }
         PageHelper.startPage(page, offset);
         List<BlogInfo> blogInfos = mapper.getAllBlogs();
         return new PageInfo<>(blogInfos);

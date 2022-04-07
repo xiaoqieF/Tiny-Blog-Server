@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Date;
 import java.util.Map;
 
-// jwt 辅助类
+// jwt 辅助类，用于生成和验证token
 @Slf4j
 public class JWTUtil {
     // fxd1999 md5加密大写
@@ -66,7 +66,7 @@ public class JWTUtil {
     }
 
     /**
-     * 将payload字段翻转，因为该字段未被加密
+     * 将payload字段翻转处理，因为该字段未被加密
      * @param token
      * @return
      */

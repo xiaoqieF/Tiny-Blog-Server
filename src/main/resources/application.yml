@@ -25,4 +25,4 @@ pagehelper:
 win-upload-file-path: E:\upload\
 
 # linux系统
-unix-upload-file-path: /tmp/
+unix-upload-file-path: /opt/upload/

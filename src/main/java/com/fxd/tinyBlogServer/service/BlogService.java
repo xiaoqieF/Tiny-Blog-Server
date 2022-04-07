@@ -14,7 +14,7 @@ public interface BlogService {
 
     int addBlog(Blog blog);
     List<BlogInfo> getAllBlogs();
-    PageInfo<BlogInfo> findBlogsByPage(int page, int offset);
+    PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset);
     Blog getBlogById(Long id);
     int deleteBlogById(Long id);
     int updateBlog(Blog blog);
