@@ -52,15 +52,33 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <!-- token依赖 -->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.4.0</version>
         </dependency>
+        <!-- mybatis分页依赖 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.4.1</version>
+        </dependency>
+        <!-- markdown转换html依赖 -->
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark-ext-gfm-tables</artifactId>
+            <version>0.18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark-ext-heading-anchor</artifactId>
+            <version>0.18.2</version>
         </dependency>
     </dependencies>
 

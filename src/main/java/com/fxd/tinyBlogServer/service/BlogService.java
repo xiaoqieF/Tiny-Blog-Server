@@ -16,6 +16,7 @@ public interface BlogService {
     List<BlogInfo> getAllBlogs();
     PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset);
     Blog getBlogById(Long id);
+    Blog getRawBlogById(Long id);
     int deleteBlogById(Long id);
     int updateBlog(Blog blog);
     List<BlogInfo> getRecommendBlog();

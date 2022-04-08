@@ -26,7 +26,8 @@ public class BlogController {
 
     // 获取博客列表信息
     @GetMapping("/public/blog")
-    public Map<String, Object> getAllBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    public Map<String, Object> getAllBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize);
         List<BlogInfo> blogInfos = pageInfo.getList();
         log.info("get blogs：{}", blogInfos.size());
@@ -57,15 +58,30 @@ public class BlogController {
 
     // 上传博客首图
     @PostMapping("/private/blog/upload")
-    public Map<String, Object> uploadAvatar(@RequestParam("file") MultipartFile uploadFile, HttpServletRequest req) throws IOException {
+    public Map<String, Object> uploadAvatar(@RequestParam("file") MultipartFile uploadFile,
+                                            HttpServletRequest req) throws IOException {
         return FileUploadUtil.saveTo("/uploadImg", uploadFile, req);
     }
 
-    // 根据id查询博客
+    // 根据id查询博客(html格式)
     @GetMapping("/public/blog/{blogId}")
     public Map<String, Object> getBlogById(@PathVariable("blogId") Long blogId) {
         Map<String, Object> res = new HashMap<>();
         Blog blog = blogService.getBlogById(blogId);
+        if (blog == null) {
+            res.put("meta", new MetaData(401, "获取博客失败"));
+        } else {
+            res.put("meta", new MetaData(200, "获取博客成功"));
+            res.put("data", blog);
+        }
+        return res;
+    }
+
+    // 根据id查询博客(markdown格式)
+    @GetMapping("/public/blog/raw/{blogId}")
+    public Map<String, Object> getRawBlogById(@PathVariable("blogId") Long blogId) {
+        Map<String, Object> res = new HashMap<>();
+        Blog blog = blogService.getRawBlogById(blogId);
         if (blog == null) {
             res.put("meta", new MetaData(401, "获取博客失败"));
         } else {
@@ -102,6 +118,7 @@ public class BlogController {
         return res;
     }
 
+    // 获取推荐博客数据
     @GetMapping("/public/blog/recommend")
     public Map<String, Object> getRecommendBlog() {
         List<BlogInfo> blogInfos = blogService.getRecommendBlog();

@@ -1,5 +1,6 @@
 package com.fxd.tinyBlogServer.service;
 
+import com.fxd.tinyBlogServer.Utils.MarkdownUtil;
 import com.fxd.tinyBlogServer.dao.BlogMapper;
 import com.fxd.tinyBlogServer.pojo.Blog;
 import com.fxd.tinyBlogServer.pojo.Tag;
@@ -51,6 +52,16 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public Blog getBlogById(Long id) {
+        Blog blog = getRawBlogById(id);
+        if (blog == null) {
+            return null;
+        }
+        blog.setContent(MarkdownUtil.markToHtml(blog.getContent()));
+        return blog;
+    }
+
+    @Override
+    public Blog getRawBlogById(Long id) {
         Blog blog = mapper.getBlogById(id);
         if (blog == null) {
             return null;
@@ -58,6 +69,7 @@ public class BlogServiceImpl implements BlogService{
         // 填充typeId和tagId和userId字段
         blog.setTypeId(blog.getType().getId());
         blog.setUserId(blog.getUser().getId());
+
         List<Long> tagIds = new ArrayList<>();
         List<Tag> tags = blog.getTags();
         tags.forEach( tag -> {
