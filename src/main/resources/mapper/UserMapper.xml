@@ -15,4 +15,8 @@
     <select id="getUserById" resultType="com.fxd.tinyBlogServer.pojo.User">
         select * from t_user where id = #{id};
     </select>
+
+    <select id="getDefaultUser" resultType="com.fxd.tinyBlogServer.pojo.User">
+        select id, avatar, create_time, email, nickname, type, update_time, username from t_user;
+    </select>
 </mapper>

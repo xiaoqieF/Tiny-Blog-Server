@@ -83,4 +83,9 @@ public class BlogServiceImpl implements BlogService{
         mapper.addBlogTag(blog);
         return num;
     }
+
+    @Override
+    public List<BlogInfo> getRecommendBlog() {
+        return mapper.getRecommendBlog();
+    }
 }

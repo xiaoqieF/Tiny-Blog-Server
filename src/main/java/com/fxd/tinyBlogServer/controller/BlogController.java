@@ -102,4 +102,13 @@ public class BlogController {
         return res;
     }
 
+    @GetMapping("/public/blog/recommend")
+    public Map<String, Object> getRecommendBlog() {
+        List<BlogInfo> blogInfos = blogService.getRecommendBlog();
+        Map<String, Object> res = new HashMap<>();
+        res.put("meta", new MetaData(200, "获取数据成功"));
+        res.put("data", blogInfos);
+        return res;
+    }
+
 }

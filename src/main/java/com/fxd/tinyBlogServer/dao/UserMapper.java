@@ -9,4 +9,5 @@ public interface UserMapper {
     User findUserByNameAndPassword(@Param("username") String username, @Param("password") String password);
     User getUserById(@Param("id") Long id);
     int updateUser(User user);
+    User getDefaultUser();
 }

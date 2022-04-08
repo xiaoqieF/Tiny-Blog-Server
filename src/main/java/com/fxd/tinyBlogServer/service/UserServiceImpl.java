@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService{
         user.setUpdateTime(new Date());
         return mapper.updateUser(user);
     }
+
+    @Override
+    public User getDefaultUser() {
+        return mapper.getDefaultUser();
+    }
 }

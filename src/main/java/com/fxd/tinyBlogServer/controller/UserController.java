@@ -64,6 +64,20 @@ public class UserController {
         return res;
     }
 
+    // 查询首页默认用户信息
+    @GetMapping("/public/user/default")
+    public Map<String, Object> getUserInfo() {
+        Map<String, Object> res = new HashMap<>();
+        User user = userService.getDefaultUser();
+        if (user == null) {
+            res.put("meta", new MetaData(401, "用户不存在！"));
+        } else {
+            res.put("meta", new MetaData(200, "获取用户信息成功！"));
+            res.put("data", user);
+        }
+        return res;
+    }
+
     // 更改用户信息
     @PutMapping("/private/user/{id}")
     public Map<String, Object> updateUserInfo(@PathVariable("id") Long id, @RequestBody User user) {

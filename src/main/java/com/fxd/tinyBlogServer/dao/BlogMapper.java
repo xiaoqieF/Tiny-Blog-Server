@@ -22,4 +22,6 @@ public interface BlogMapper {
     int deleteBlogTag(Long blog_id);
     // 更新博客信息
     int updateBlog(Blog blog);
+    // 获取推荐的博客简要信息
+    List<BlogInfo> getRecommendBlog();
 }
