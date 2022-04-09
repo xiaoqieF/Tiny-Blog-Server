@@ -24,4 +24,6 @@ public interface BlogMapper {
     int updateBlog(Blog blog);
     // 获取推荐的博客简要信息
     List<BlogInfo> getRecommendBlog();
+
+    int updateBlogViews(Long blogId);
 }

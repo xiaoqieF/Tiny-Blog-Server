@@ -140,4 +140,16 @@ public class BlogController {
         return res;
     }
 
+    // 发送请求博客阅读次数增加
+    @PostMapping("/public/blog/view/{blogId}")
+    public Map<String, Object> increaseBlogViews(@PathVariable Long blogId) {
+        int num = blogService.increaseBlogViews(blogId);
+        Map<String, Object> res = new HashMap<>();
+        if (num > 0) {
+            res.put("meta", new MetaData(200, ""));
+        } else {
+            res.put("meta", new MetaData(401, "增加阅读量失败！"));
+        }
+        return res;
+    }
 }

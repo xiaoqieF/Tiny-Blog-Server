@@ -216,4 +216,10 @@
         where B.recommend = true and B.published = true
     </select>
 
+    <update id="updateBlogViews">
+        update t_blog
+        set views = views + 1
+        where id = #{blogId};
+    </update>
+
 </mapper>

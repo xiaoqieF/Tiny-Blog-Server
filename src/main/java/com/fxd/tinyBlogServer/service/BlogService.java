@@ -20,4 +20,5 @@ public interface BlogService {
     int deleteBlogById(Long id);
     int updateBlog(Blog blog);
     List<BlogInfo> getRecommendBlog();
+    int increaseBlogViews(Long blogId);
 }

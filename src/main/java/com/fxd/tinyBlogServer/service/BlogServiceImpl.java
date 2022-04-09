@@ -46,6 +46,7 @@ public class BlogServiceImpl implements BlogService{
             return new PageInfo<>(mapper.getAllBlogs(published));
         }
         PageHelper.startPage(page, offset);
+        PageHelper.orderBy("blog_create_time desc");
         List<BlogInfo> blogInfos = mapper.getAllBlogs(published);
         return new PageInfo<>(blogInfos);
     }
@@ -99,5 +100,10 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public List<BlogInfo> getRecommendBlog() {
         return mapper.getRecommendBlog();
+    }
+
+    @Override
+    public int increaseBlogViews(Long blogId) {
+        return mapper.updateBlogViews(blogId);
     }
 }
