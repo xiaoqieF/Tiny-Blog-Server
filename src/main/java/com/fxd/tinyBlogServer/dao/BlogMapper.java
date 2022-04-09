@@ -13,7 +13,7 @@ public interface BlogMapper {
     // 添加博客标签
     int addBlogTag(Blog blog);
     // 获取所有博客的简要信息，(除内容)
-    List<BlogInfo> getAllBlogs();
+    List<BlogInfo> getAllBlogs(boolean published);
     // 通过id查找博客
     Blog getBlogById(Long id);
     // 通过博客id删除博客

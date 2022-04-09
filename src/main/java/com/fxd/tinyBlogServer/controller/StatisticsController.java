@@ -25,7 +25,7 @@ public class StatisticsController {
     @GetMapping("/public/statistics")
     public Map<String, Object> getStatisticsInfo() {
         StatisticsInfo info = new StatisticsInfo();
-        info.setArchivesNum(blogService.getAllBlogs().size());
+        info.setArchivesNum(blogService.getAllBlogs(true).size());
         info.setCategoriesNum(typeService.getAllTypes().size());
         info.setTagsNum(tagService.getAllTags().size());
 

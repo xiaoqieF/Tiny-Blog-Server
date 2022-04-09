@@ -13,8 +13,8 @@ import java.util.List;
 public interface BlogService {
 
     int addBlog(Blog blog);
-    List<BlogInfo> getAllBlogs();
-    PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset);
+    List<BlogInfo> getAllBlogs(boolean published);
+    PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, boolean published);
     Blog getBlogById(Long id);
     Blog getRawBlogById(Long id);
     int deleteBlogById(Long id);

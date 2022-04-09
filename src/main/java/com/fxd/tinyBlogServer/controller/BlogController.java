@@ -24,11 +24,23 @@ public class BlogController {
     @Autowired
     BlogService blogService;
 
-    // 获取博客列表信息
-    @GetMapping("/public/blog")
+    // 获取博客列表信息(包括未发布博客)
+    @GetMapping("/private/blog")
     public Map<String, Object> getAllBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum,
                                            @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize);
+        PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize, false);
+        return generateRes(pageInfo);
+    }
+
+    // 获取博客列表信息(不包括未发布博客)
+    @GetMapping("/public/blog")
+    public Map<String, Object> getPublishedBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize, true);
+        return generateRes(pageInfo);
+    }
+
+    private Map<String, Object> generateRes(PageInfo<BlogInfo> pageInfo) {
         List<BlogInfo> blogInfos = pageInfo.getList();
         log.info("get blogs：{}", blogInfos.size());
 

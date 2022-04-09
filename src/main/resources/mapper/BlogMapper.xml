@@ -52,6 +52,7 @@
     </resultMap>
 
     <!-- 查询出全部博客的简要信息(不包括博客内容，但包括作者信息，标签信息，分类信息) -->
+    <!-- 根据传入的published参数，决定查询全部博客还是已发表博客 -->
     <select id="getAllBlogs" resultMap="blogResMap">
         select
             B.id as blog_id,
@@ -80,6 +81,9 @@
         from t_blog B
         left outer join t_user U on B.user_id = U.id
         left outer join t_type T on B.type_id = T.id
+        <if test="published == true">
+            where B.published = true
+        </if>
     </select>
 
     <!-- 在tag表中，通过中间表找出博客id为#{blog_id}对应的标签 -->
@@ -209,7 +213,7 @@
         from t_blog B
                  left outer join t_user U on B.user_id = U.id
                  left outer join t_type T on B.type_id = T.id
-        where B.recommend = true
+        where B.recommend = true and B.published = true
     </select>
 
 </mapper>

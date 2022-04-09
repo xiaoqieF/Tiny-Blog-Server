@@ -35,18 +35,18 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public List<BlogInfo> getAllBlogs() {
-        return mapper.getAllBlogs();
+    public List<BlogInfo> getAllBlogs(boolean published) {
+        return mapper.getAllBlogs(published);
     }
 
     @Override
-    public PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset) {
+    public PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, boolean published) {
         // 未传参时，将全部页面返回
         if (page == null || offset == null) {
-            return new PageInfo<>(mapper.getAllBlogs());
+            return new PageInfo<>(mapper.getAllBlogs(published));
         }
         PageHelper.startPage(page, offset);
-        List<BlogInfo> blogInfos = mapper.getAllBlogs();
+        List<BlogInfo> blogInfos = mapper.getAllBlogs(published);
         return new PageInfo<>(blogInfos);
     }
 
