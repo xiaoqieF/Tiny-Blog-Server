@@ -19,7 +19,8 @@ public class Comment {
     private String avatar;
     private Date createTime;
 
-    private Blog blog;
+    private Long blogId;
+    private Long parentCommentId;
     private List<Comment> replyComments = new ArrayList<>();
     private Comment parentComment;
 }
