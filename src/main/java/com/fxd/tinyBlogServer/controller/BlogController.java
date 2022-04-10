@@ -35,8 +35,9 @@ public class BlogController {
     // 获取博客列表信息(不包括未发布博客)
     @GetMapping("/public/blog")
     public Map<String, Object> getPublishedBlogs(@RequestParam(value = "pageNum", required = false) Integer pageNum,
-                                           @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize, true);
+                                                 @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                 @RequestParam(value = "searchWords", required = false) String searchWords) {
+        PageInfo<BlogInfo> pageInfo = blogService.findBlogsByPage(pageNum, pageSize, searchWords);
         return generateRes(pageInfo);
     }
 
@@ -152,4 +153,6 @@ public class BlogController {
         }
         return res;
     }
+
+
 }

@@ -215,6 +215,36 @@
                  left outer join t_type T on B.type_id = T.id
         where B.recommend = true and B.published = true
     </select>
+    <select id="searchAllByTitleOrContent" resultMap="blogResMap">
+        select
+            B.id as blog_id,
+            B.appreciation as blog_appreciation,
+            B.comment_enable as blog_comment_enable,
+            B.create_time as blog_create_time,
+            B.description as blog_description,
+            B.first_picture as blog_first_picture,
+            B.flag as blog_flag,
+            B.published as blog_published,
+            B.recommend as blog_recommend,
+            B.share_statement as blog_share_statement,
+            B.title as blog_title,
+            B.update_time as blog_update_time,
+            B.views as blog_views,
+            U.id as user_id,
+            U.avatar as user_avatar,
+            U.create_time as user_create_time,
+            U.username as user_username,
+            U.update_time as user_update_time,
+            U.nickname as user_nickname,
+            U.type as user_type,
+            U.email as user_email,
+            T.id as type_id,
+            T.name as type_name
+        from t_blog B
+             left outer join t_user U on B.user_id = U.id
+             left outer join t_type T on B.type_id = T.id
+        where B.published = true and (B.title like #{searchWords} or B.content like #{searchWords})
+    </select>
 
     <update id="updateBlogViews">
         update t_blog

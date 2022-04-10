@@ -12,6 +12,7 @@ public interface BlogService {
     int addBlog(Blog blog);
     List<BlogInfo> getAllBlogs(boolean published);
     PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, boolean published);
+    PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, String searchWords);
     Blog getBlogById(Long id);
     Blog getRawBlogById(Long id);
     int deleteBlogById(Long id);

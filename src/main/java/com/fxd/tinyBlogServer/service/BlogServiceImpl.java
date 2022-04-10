@@ -36,18 +36,31 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogInfo> getAllBlogs(boolean published) {
+        PageHelper.orderBy("blog_create_time desc");
         return mapper.getAllBlogs(published);
     }
 
     @Override
     public PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, boolean published) {
+        PageHelper.orderBy("blog_create_time desc");
         // 未传参时，将全部页面返回
         if (page == null || offset == null) {
             return new PageInfo<>(mapper.getAllBlogs(published));
         }
         PageHelper.startPage(page, offset);
-        PageHelper.orderBy("blog_create_time desc");
         List<BlogInfo> blogInfos = mapper.getAllBlogs(published);
+        return new PageInfo<>(blogInfos);
+    }
+
+    @Override
+    public PageInfo<BlogInfo> findBlogsByPage(Integer page, Integer offset, String searchWords) {
+        // 未传参时，将全部页面返回
+        if (page == null || offset == null) {
+            return new PageInfo<>(mapper.getAllBlogs(true));
+        }
+        PageHelper.startPage(page, offset);
+        PageHelper.orderBy("blog_create_time desc");
+        List<BlogInfo> blogInfos = mapper.searchAllByTitleOrContent("%" + searchWords + "%");
         return new PageInfo<>(blogInfos);
     }
 
