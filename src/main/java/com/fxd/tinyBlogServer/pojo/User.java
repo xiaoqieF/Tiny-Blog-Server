@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 @Data
@@ -22,6 +20,8 @@ public class User {
     private Integer type;
     private Date createTime;
     private Date updateTime;
-
-
+    // 座右铭
+    private String moto;
+    // 描述
+    private String description;
 }

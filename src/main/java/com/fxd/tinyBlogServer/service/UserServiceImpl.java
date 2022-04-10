@@ -1,5 +1,6 @@
 package com.fxd.tinyBlogServer.service;
 
+import com.fxd.tinyBlogServer.Utils.MarkdownUtil;
 import com.fxd.tinyBlogServer.dao.UserMapper;
 import com.fxd.tinyBlogServer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getDefaultUser() {
-        return mapper.getDefaultUser();
+        User user = mapper.getDefaultUser();
+        user.setDescription(MarkdownUtil.markToHtml(user.getDescription()));
+        return user;
     }
 }

@@ -5,7 +5,9 @@
 <mapper namespace="com.fxd.tinyBlogServer.dao.UserMapper">
 
     <update id="updateUser">
-        update t_user set nickname = #{nickname},password = #{password},email = #{email},update_time = #{updateTime}, avatar = #{avatar} where id = #{id};
+        update t_user set nickname = #{nickname},password = #{password},email = #{email},
+                          update_time = #{updateTime}, avatar = #{avatar}, description = #{description}, moto = #{moto}
+        where id = #{id};
     </update>
 
     <select id="findUserByNameAndPassword" resultType="com.fxd.tinyBlogServer.pojo.User">
@@ -17,6 +19,6 @@
     </select>
 
     <select id="getDefaultUser" resultType="com.fxd.tinyBlogServer.pojo.User">
-        select id, avatar, create_time, email, nickname, type, update_time, username from t_user;
+        select id, avatar, create_time, email, nickname, type, update_time, username, moto, description from t_user;
     </select>
 </mapper>

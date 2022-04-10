@@ -73,9 +73,7 @@ public class BlogServiceImpl implements BlogService{
 
         List<Long> tagIds = new ArrayList<>();
         List<Tag> tags = blog.getTags();
-        tags.forEach( tag -> {
-            tagIds.add(tag.getId());
-        });
+        tags.forEach( tag -> tagIds.add(tag.getId()));
         blog.setTagId(tagIds);
         return blog;
     }

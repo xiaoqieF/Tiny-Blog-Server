@@ -87,10 +87,12 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+    `description` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
     `create_time` datetime(0) NULL DEFAULT NULL,
     `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
     `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
     `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+    `moto` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
     `type` int(11) NULL DEFAULT NULL,
     `update_time` datetime(0) NULL DEFAULT NULL,
     `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

@@ -4,7 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxd.tinyBlogServer.dao.TagMapper">
 
-    <select id="getAllTags" resultType="com.fxd.tinyBlogServer.pojo.Tag">
+    <resultMap id="tagResMap" type="com.fxd.tinyBlogServer.pojo.Type">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="blogInfos" javaType="ArrayList" ofType="com.fxd.tinyBlogServer.pojo.inter.BlogInfo"
+                    column="id" select="getBlogInfoByTagId"/>
+    </resultMap>
+
+    <!-- 通过tagId查询到对应的博客信息列表 -->
+    <select id="getBlogInfoByTagId" resultType="com.fxd.tinyBlogServer.pojo.inter.BlogInfo">
+        select * from t_blog where id in (select blog_id from t_blog_tag where tag_id = #{id}) order by create_time desc;
+    </select>
+
+    <select id="getAllTags" resultMap="tagResMap">
         select * from t_tag;
     </select>
 

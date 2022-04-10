@@ -4,7 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxd.tinyBlogServer.dao.TypeMapper">
 
-    <select id="getAllTypes" resultType="com.fxd.tinyBlogServer.pojo.Type">
+    <resultMap id="typeResMap" type="com.fxd.tinyBlogServer.pojo.Type">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <collection property="blogInfos" javaType="ArrayList" column="id"
+                    ofType="com.fxd.tinyBlogServer.pojo.inter.BlogInfo" select="getBlogInfoByTypeId"/>
+    </resultMap>
+
+    <!-- 获取某个类别下的所有的博客信息，已发表的 -->
+    <select id="getBlogInfoByTypeId" resultType="com.fxd.tinyBlogServer.pojo.inter.BlogInfo">
+        select * from t_blog where type_id = #{id} and published = true order by create_time desc;
+    </select>
+
+    <select id="getAllTypes" resultMap="typeResMap">
         select * from t_type;
     </select>
 

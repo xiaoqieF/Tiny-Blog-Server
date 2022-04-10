@@ -1,6 +1,5 @@
 package com.fxd.tinyBlogServer.dao;
 
-import com.fxd.tinyBlogServer.pojo.Blog;
 import com.fxd.tinyBlogServer.pojo.Comment;
 import org.apache.ibatis.annotations.Mapper;
 
